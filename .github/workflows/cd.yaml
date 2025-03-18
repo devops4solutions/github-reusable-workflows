@@ -6,6 +6,9 @@ on:
       working-directory:
         required: true
         type: string
+      container_version:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -19,6 +22,8 @@ jobs:
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
+    env:
+      TF_VAR_container_version: ${{ inputs.container_version }}
     steps:
       - uses: actions/checkout@v3
 
