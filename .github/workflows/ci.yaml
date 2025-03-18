@@ -12,6 +12,9 @@ on:
       image-tag:
         required: true
         type: string
+      jar-name:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -37,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app.jar
-          path: target/helloservice-1.jar
+          path: target/${{ inputs.jar-name }}.jar
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
