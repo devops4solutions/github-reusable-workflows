@@ -9,6 +9,9 @@ on:
       container_version:
         required: true
         type: string
+      environment:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -42,13 +45,13 @@ jobs:
       - name: Terraform Init
         run: |
           rm -rf .terraform
-          terraform init
+          terraform init -backend-config=${{ inputs.environment }}/backend.tfvars
 
       - name: Terraform Plan
         run: |
-          terraform plan
+          terraform plan -var-file=${{ inputs.environment }}/terraform.tfvars
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: |
-          terraform apply --auto-approve
+          terraform apply --auto-approve -var-file=${{ inputs.environment }}/terraform.tfvars
